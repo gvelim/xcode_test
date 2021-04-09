@@ -8,38 +8,36 @@
 #include <stdio.h>
 
 // forward declarations
-typedef struct AnObject sObj;   	// Object type
+typedef struct AnObject sObj;   		// Object type
 void set(sObj* this, int a, int b);
-int add(sObj* this);            	// Object method
-void initAnObject(sObj* so);    	// Object constructor
+int add(sObj* this);            		// Object method
+void initAnObject(sObj*, int, int);  	// Object constructor
+
 
 // Type declarations
 typedef struct AnObject {
     int a;
     int b;
 	void (*set)(sObj*, int, int);
-    int (*add)(sObj* this);
+    int (*add)(sObj*);
 } sObj;
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    int i;
+
     sObj aObj,bObj,cObj;
     
-    initAnObject(&aObj);
-    initAnObject(&bObj);
-	initAnObject(&cObj);
+    initAnObject(&aObj, 10, 10);
+    initAnObject(&bObj, 1, 1);
+	initAnObject(&cObj, 5, 5);
 	
-	aObj.set(&aObj, 10, 10);
-	bObj.set(&bObj, 1, 1);
-	cObj.set(&cObj, 5, 1);
+	aObj.set(&aObj, 10, 12);
 	
-   for (i=0; i<10; i++) {
+   for (int i=0; i<10; i++) {
         aObj.a += i;
         bObj.b += aObj.a;
         printf("Hello.. aObj:%d, bObj: %d, cObj: %d\n", aObj.add(&aObj), bObj.add(&bObj), cObj.add(&cObj) );
     }
-    return i;
+    return 0;
 }
 
 /*************************/
@@ -47,10 +45,10 @@ int main(int argc, const char * argv[]) {
 /*************************/
 
 
-void initAnObject(sObj* so) {
+void initAnObject(sObj* so,int a, int b) {
     so->add = &add;
 	so->set = &set;
-    so->set(so, 10, 1);
+    so->set(so, a, b);
     return;
 }
 
