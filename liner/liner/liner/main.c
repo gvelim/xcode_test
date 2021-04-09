@@ -7,28 +7,46 @@
 
 #include <stdio.h>
 
-typedef struct ObjectOrientedDummy {
+// forward declarations
+typedef struct AnObject sObj;   // Object type
+int add(sObj* this);            // Object method
+void initAnObject(sObj* so);    // Object constructor
+
+// Type declarations
+typedef struct AnObject {
     int a;
     int b;
-    int (*add)(void* this);
-} sOOD;
-
-int add(sOOD* this) {
-    return this->a + this->b;
-}
+    int (*add)(sObj* this);
+} sObj;
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     int i;
-    sOOD dummy;
+    sObj aObj,bObj;
     
-    dummy.add = (void*)&add;
-    dummy.a = 10;
-    dummy.b = 1;
+    initAnObject(&aObj);
+    initAnObject(&bObj);
     
     for (i=0; i<10; i++) {
-        dummy.a += i;
-        printf("Hello, %d World!\n", dummy.add(&dummy) );
+        aObj.a += i;
+        bObj.b += aObj.a;
+        printf("Hello.. aObj.a:%d, bObj.b: %d\n", aObj.add(&aObj), bObj.add(&bObj) );
     }
     return i;
+}
+
+/*************************/
+// Functional Declarations
+/*************************/
+
+
+void initAnObject(sObj* so) {
+    so->add = &add;
+    so->a = 10;
+    so->b = 1;
+    return;
+}
+
+int add(sObj* this) {
+    return this->a + this->b;
 }
