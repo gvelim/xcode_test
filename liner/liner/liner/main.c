@@ -7,20 +7,20 @@
 
 #include <stdio.h>
 
-typedef struct objectOrientedDummy {
+typedef struct ObjectOrientedDummy {
     int a;
     int b;
     int (*add)(void* this);
-} ood;
+} sOOD;
 
-int add(ood* this) {
+int add(sOOD* this) {
     return this->a + this->b;
 }
 
 int main(int argc, const char * argv[]) {
     // insert code here...
     int i;
-    ood dummy;
+    sOOD dummy;
     
     dummy.add = (void*)&add;
     dummy.a = 10;
